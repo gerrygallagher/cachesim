@@ -34,7 +34,15 @@ class CacheLevel(Level):
         return index_string
 
     def _calculate_tag(self, address):
-        return 0  # todo
+        d = int(address, 16)  # hex to decimal
+        b = bin(d)  # decimal to binary
+        b = b[2:]  # remove "0b" prefix
+        # note b is a string
+        num_block_offset_bits = int(math.log2(self.block_size))
+        num_index_bits = int(math.log2((self.size / self.block_size) / self.associativity))
+        tag_string = b[0:32-(num_block_offset_bits+num_index_bits)]
+
+        return tag_string
 
     def _calculate_block_address(self, address):
         return 0  # todo
