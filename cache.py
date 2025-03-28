@@ -1,5 +1,6 @@
 from collections import deque, OrderedDict
 from utils import Level
+import math
 
 
 class CacheLevel(Level):
@@ -17,7 +18,20 @@ class CacheLevel(Level):
         # todo anything else you may want...
 
     def _calculate_index(self, address):
-        return 0  # todo
+        d = int(address, 16)  # hex to decimal
+        b = bin(d)  # decimal to binary
+        b = b[2:]  # remove "0b" prefix
+        # note b is a string
+        num_block_offset_bits = int(math.log2(self.block_size))
+        num_index_bits = int(math.log2((self.size/self.block_size)/self.associativity))
+        index_string = b[32-num_block_offset_bits-num_index_bits : 32-num_block_offset_bits]
+        '''
+        should return be a string, 
+        is addr always 32, 
+        needs tested, 
+        returning right thing?
+        '''
+        return index_string
 
     def _calculate_tag(self, address):
         return 0  # todo
