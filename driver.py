@@ -65,8 +65,9 @@ if __name__ == '__main__':
     print('\t' + ' <-> '.join([level.name for level in memory_hierarchy]))
 
     # now that the hierarchy is defined, perform the R/W accesses on the cache
-    for mem_access in (sys.stdin if args.stdin else args.trace):
+    for idx, mem_access in enumerate(sys.stdin if args.stdin else args.trace):
         a_type, a_addr = mem_access.strip().split(',')
+        if a_type not in {'R', 'W'}: raise ValueError(f'Invalid memory access type found at line {idx}: {a_type}')
         memory_hierarchy[0].access(a_type, int(a_addr, 16))
 
     # after the test is done report overall stats

@@ -56,6 +56,9 @@ class Level:
         print(f"\t{self.evictions} evictions")
         print(f"\t{self.writebacks} writebacks")
 
+    def __repr__(self):
+        return f"{self.name}"
+
 
 class Memory(Level):
     """
